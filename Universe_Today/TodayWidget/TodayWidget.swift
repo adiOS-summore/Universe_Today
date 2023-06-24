@@ -104,7 +104,6 @@ struct TodayWidgetEntryView : View {
                 Image(entry.imageURL)
                     .resizable()
                     .aspectRatio(contentMode: .fit)
-                Text(entry.imageURL)
             }
             
         }

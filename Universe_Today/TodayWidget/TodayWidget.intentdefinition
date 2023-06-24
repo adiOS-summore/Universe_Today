@@ -42,11 +42,7 @@
 					<integer>1</integer>
 					<key>INIntentParameterMetadata</key>
 					<dict>
-						<key>INIntentParameterMetadataDefaultValue</key>
-						<integer>1</integer>
 						<key>INIntentParameterMetadataMaximumValue</key>
-						<integer>2</integer>
-						<key>INIntentParameterMetadataMinimumValue</key>
 						<integer>1</integer>
 						<key>INIntentParameterMetadataType</key>
 						<string>Stepper</string>
