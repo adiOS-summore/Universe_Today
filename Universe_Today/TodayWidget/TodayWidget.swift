@@ -10,9 +10,19 @@ import SwiftUI
 import Intents
 
 struct CatImages {
+//    let images: [String] = [
+//        "runCat1",
+//        "runCat2",
+//        "runCat3",
+//        "runCat4",
+//        "runCat5",
+//        "runCat6",
+//        "runCat7",
+//    ]
+    
     let images: [String] = [
-        "pop-cat-1",
-        "pop-cat-2"
+        "cat1",
+        "cat2"
     ]
 }
 
@@ -23,12 +33,12 @@ struct Provider: IntentTimelineProvider {
     
     func placeholder(in context: Context) -> SimpleEntry {
         SimpleEntry(date: Date(),
-                    imageURL: catImages.images.randomElement()!)
+                    imageURL: catImages.images.first ?? "runCat1")
     }
 
     func getSnapshot(for configuration: ConfigurationIntent, in context: Context, completion: @escaping (SimpleEntry) -> ()) {
         let entry = SimpleEntry(date: Date(),
-                                imageURL: catImages.images.randomElement()!)
+                                imageURL: catImages.images.last ?? "runCat2")
         completion(entry)
     }
 
@@ -41,13 +51,13 @@ struct Provider: IntentTimelineProvider {
 
         // Generate a timeline consisting of five entries an hour apart, starting from the current date.
         let currentDate = Date()
-        for hourOffset in 0 ..< 60 {
+        for hourOffset in 0 ..< 3600 {
             let entryDate = Calendar.current.date(
                 byAdding: .second,
                 value: hourOffset,
                 to: currentDate)!
             let entry = SimpleEntry(date: entryDate,
-                                    imageURL: catImages.images[hourOffset % 2])
+                                    imageURL: catImages.images[hourOffset % catImages.images.count])
             entries.append(entry)
         }
 
@@ -79,10 +89,12 @@ struct TodayWidgetEntryView : View {
                 
             }
              */
-            
-            Image(entry.imageURL)
-                .resizable()
-                .aspectRatio(contentMode: .fill)
+            VStack {
+                Image(entry.imageURL)
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                Text(entry.imageURL)
+            }
             
         }
     }
