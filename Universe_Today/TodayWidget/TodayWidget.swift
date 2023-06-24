@@ -9,21 +9,26 @@ import WidgetKit
 import SwiftUI
 import Intents
 
-let images: [String] = [
-    "apod1",
-    "apod2",
-    "apod3"
-]
+struct CatImages {
+    let images: [String] = [
+        "pop-cat-1",
+        "pop-cat-2"
+    ]
+}
+
 
 struct Provider: IntentTimelineProvider {
+    
+    let catImages: CatImages = .init()
+    
     func placeholder(in context: Context) -> SimpleEntry {
         SimpleEntry(date: Date(),
-                                imageURL: images.randomElement()!)
+                    imageURL: catImages.images.randomElement()!)
     }
 
     func getSnapshot(for configuration: ConfigurationIntent, in context: Context, completion: @escaping (SimpleEntry) -> ()) {
         let entry = SimpleEntry(date: Date(),
-                                imageURL: images.randomElement()!)
+                                imageURL: catImages.images.randomElement()!)
         completion(entry)
     }
 
@@ -36,10 +41,13 @@ struct Provider: IntentTimelineProvider {
 
         // Generate a timeline consisting of five entries an hour apart, starting from the current date.
         let currentDate = Date()
-        for hourOffset in 0 ..< 5 {
-            let entryDate = Calendar.current.date(byAdding: .hour, value: hourOffset, to: currentDate)!
+        for hourOffset in 0 ..< 60 {
+            let entryDate = Calendar.current.date(
+                byAdding: .second,
+                value: hourOffset,
+                to: currentDate)!
             let entry = SimpleEntry(date: entryDate,
-                                    imageURL: images.randomElement()!)
+                                    imageURL: catImages.images[hourOffset % 2])
             entries.append(entry)
         }
 
@@ -72,7 +80,7 @@ struct TodayWidgetEntryView : View {
             }
              */
             
-            Image(images.randomElement()!)
+            Image(entry.imageURL)
                 .resizable()
                 .aspectRatio(contentMode: .fill)
             
